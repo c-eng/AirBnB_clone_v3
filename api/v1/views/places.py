@@ -14,6 +14,7 @@ def allplaces(city_id=""):
         for c in storage.all("City").values():
             if c.id == city_id:
                 return jsonify([p.to_dict() for p in c.places])
+    abort(404)
 
 
 @app_views.route('/cities/<city_id>/places',
