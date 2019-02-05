@@ -31,7 +31,7 @@ def createamenity():
                  methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def amenity(amenity_id=""):
-    """Amenity by id get, delete, post, and put"""
+    """Amenity by id get, delete, and put"""
     for a in storage.all("Amenity").values():
         if a.id == amenity_id:
             meth = request.method

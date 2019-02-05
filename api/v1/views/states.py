@@ -31,7 +31,7 @@ def createstate():
                  methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def state(state_id=""):
-    """State by id get, delete, post, and put"""
+    """State by id get, delete, and put"""
     for state in storage.all("State").values():
         if state.id == state_id:
             meth = request.method

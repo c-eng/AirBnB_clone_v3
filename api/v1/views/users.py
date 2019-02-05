@@ -33,7 +33,7 @@ def createuser():
                  methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def user(user_id=""):
-    """User by id get, delete, post, and put"""
+    """User by id get, delete, and put"""
     for user in storage.all("User").values():
         if user.id == user_id:
             meth = request.method
