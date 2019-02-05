@@ -17,7 +17,6 @@ def allcities(state_id=""):
     abort(404)
 
 
-
 @app_views.route('/cities/<city_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def city(city_id=""):
@@ -63,32 +62,3 @@ def createcity(state_id=""):
     city = City(**data)
     city.save()
     return jsonify(city.to_dict()), 201
-
-'''
-@app_views.route('/states/<state_id>',
-                 methods=['GET', 'DELETE', 'PUT'],
-                 strict_slashes=False)
-def state(state_id=""):
-    """State by id get, delete, post, and put"""
-    for state in storage.all("State").values():
-        if state.id == state_id:
-            meth = request.method
-            if meth == 'GET':
-                return jsonify(state.to_dict())
-            if meth == 'DELETE':
-                state.delete()
-                storage.save()
-                return jsonify({}), 200
-            if meth == 'PUT':
-                data = ""
-                try:
-                    data = request.get_json()
-                except:
-                    return "Not a JSON", 400
-                for k, v in data.items():
-                    if k not in ['id', 'created_at', 'updated_at']:
-                        setattr(state, k, v)
-                state.save()
-                return jsonify(state.to_dict()), 200
-    abort(404)
-'''

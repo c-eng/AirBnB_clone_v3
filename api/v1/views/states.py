@@ -11,6 +11,7 @@ def allstates():
     """Retrieve list of all state objects"""
     return jsonify([s.to_dict() for s in storage.all("State").values()])
 
+
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def createstate():
     """Creates a state"""
@@ -24,6 +25,7 @@ def createstate():
     state = State(**data)
     state.save()
     return jsonify(state.to_dict()), 201
+
 
 @app_views.route('/states/<state_id>',
                  methods=['GET', 'DELETE', 'PUT'],
