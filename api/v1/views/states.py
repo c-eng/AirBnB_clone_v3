@@ -19,9 +19,9 @@ def createstate():
     try:
         data = request.get_json()
     except:
-        return "Not a JSON", 400
+        return jsonify(error="Not a JSON"), 400
     if not data.get('name'):
-        return "Missing name", 400
+        return jsonify(error="Missing name"), 400
     state = State(**data)
     state.save()
     return jsonify(state.to_dict()), 201
@@ -46,7 +46,7 @@ def state(state_id=""):
                 try:
                     data = request.get_json()
                 except:
-                    return "Not a JSON", 400
+                    return jsonify(error="Not a JSON"), 400
                 for k, v in data.items():
                     if k not in ['id', 'created_at', 'updated_at']:
                         setattr(state, k, v)
