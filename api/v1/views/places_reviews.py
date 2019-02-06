@@ -23,10 +23,8 @@ def createreview(place_id=""):
     """Creates a review by place"""
     if place_id not in [p.id for p in storage.all("Place").values()]:
         abort(404)
-    data = ""
-    try:
-        data = request.get_json()
-    except:
+    data = request.get_json(silent=True)
+    if not data:
         return "Not a JSON", 400
     uid = data.get('user_id')
     if not uid:
@@ -56,10 +54,8 @@ def review(review_id=""):
                 storage.save()
                 return jsonify({}), 200
             if meth == 'PUT':
-                data = ""
-                try:
-                    data = request.get_json()
-                except:
+                data = request.get_json(silent=True)
+                if not data:
                     return "Not a JSON", 400
                 for k, v in data.items():
                     if k not in ['id', 'created_at', 'updated_at', 'user_id',

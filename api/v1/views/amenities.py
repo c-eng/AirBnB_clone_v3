@@ -15,10 +15,8 @@ def allamenities():
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def createamenity():
     """Creates an amenity"""
-    data = ""
-    try:
-        data = request.get_json()
-    except:
+    data = request.get_json(silent=True)
+    if not data:
         return "Not a JSON", 400
     if not data.get('name'):
         return "Missing name", 400
@@ -42,10 +40,8 @@ def amenity(amenity_id=""):
                 storage.save()
                 return jsonify({}), 200
             if meth == 'PUT':
-                data = ""
-                try:
-                    data = request.get_json()
-                except:
+                data = request.get_json(silent=True)
+                if not data:
                     return "Not a JSON", 400
                 for k, v in data.items():
                     if k not in ['id', 'created_at', 'updated_at']:

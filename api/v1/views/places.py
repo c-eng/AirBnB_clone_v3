@@ -23,10 +23,8 @@ def createplace(city_id=""):
     """Creates a place by city"""
     if city_id not in [c.id for c in storage.all("City").values()]:
         abort(404)
-    data = ""
-    try:
-        data = request.get_json()
-    except:
+    data = request.get_json(silent=True)
+    if not data:
         return "Not a JSON", 400
     uid = data.get('user_id')
     if not uid:
@@ -56,10 +54,8 @@ def place(place_id=""):
                 storage.save()
                 return jsonify({}), 200
             if meth == 'PUT':
-                data = ""
-                try:
-                    data = request.get_json()
-                except:
+                data = request.get_json(silent=True)
+                if not data:
                     return "Not a JSON", 400
                 for k, v in data.items():
                     if k not in ['id', 'user_id', 'city_id',

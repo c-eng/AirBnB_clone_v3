@@ -32,10 +32,8 @@ def city(city_id=""):
                     storage.save()
                     return jsonify({}), 200
                 if meth == "PUT":
-                    data = ""
-                    try:
-                        data = request.get_json()
-                    except:
+                    data = request.get_json(silent=True)
+                    if not data:
                         return "Not a JSON", 400
                     for k, v in data.items():
                         if k not in ['id', 'created_at', 'updated_at']:
@@ -51,10 +49,8 @@ def createcity(state_id=""):
     """Creates a city"""
     if state_id not in [s.id for s in storage.all("State").values()]:
         abort(404)
-    data = ""
-    try:
-        data = request.get_json()
-    except:
+    data = request.get_json(silent=True)
+    if not data:
         return "Not a JSON", 400
     if not data.get('name'):
         return "Missing name", 400

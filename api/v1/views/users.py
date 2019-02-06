@@ -15,10 +15,8 @@ def allusers():
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def createuser():
     """Creates a user"""
-    data = ""
-    try:
-        data = request.get_json()
-    except:
+    data = request.get_json(silent=True)
+    if not data:
         return "Not a JSON", 400
     if not data.get('email'):
         return "Missing email", 400
@@ -44,10 +42,8 @@ def user(user_id=""):
                 storage.save()
                 return jsonify({}), 200
             if meth == 'PUT':
-                data = ""
-                try:
-                    data = request.get_json()
-                except:
+                data = request.get_json(silent=True)
+                if not data:
                     return "Not a JSON", 400
                 for k, v in data.items():
                     if k not in ['id', 'created_at', 'updated_at']:
