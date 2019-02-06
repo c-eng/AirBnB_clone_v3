@@ -155,7 +155,7 @@ No known bugs at this time.
 
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
-Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)  
 Cameron Eng - [Github](https://github.com/c-eng) / [Twitter](https://twitter.com/c33Eng)  
 Stephen Chu - [Github](https://github.com/stephenchu530) / [Twitter](https://twitter.com/StephenChu530)  
 
