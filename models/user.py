@@ -1,11 +1,13 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """ holds class User"""
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
 import sqlalchemy
+from sqlalchemy.event import listen
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from hashlib import md5
 
 
 class User(BaseModel, Base):
@@ -26,4 +28,15 @@ class User(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
+        if 'password' in kwargs.keys():
+            kwargs['password'] = md5(kwargs['password'].encode()).hexdigest()
         super().__init__(*args, **kwargs)
+
+    @staticmethod
+    def _hash_password(mapper, connection, target):
+        '''Hashes password'''
+        user = target
+        user.password = md5(user.password.encode()).hexdigest()
+
+listen(User, 'before_insert', User._hash_password)
+listen(User, 'before_update', User._hash_password)
