@@ -9,3 +9,4 @@ from api.v1.views import amenities  # noqa
 from api.v1.views import users  # noqa
 from api.v1.views import places  # noqa
 from api.v1.views import places_reviews  # noqa
+from api.v1.views import places_amenities  # noqa
