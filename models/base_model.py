@@ -31,6 +31,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
         if kwargs:
+            kwargs.pop('loadfromfile', None)
             for key, value in kwargs.items():
                 if key != "__class__":
                     setattr(self, key, value)
