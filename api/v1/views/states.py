@@ -9,7 +9,7 @@ from models.state import State
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def allstates():
     """Retrieve list of all state objects"""
-    return jsonify([s.to_dict() for s in storage.all("State").values()])
+    return jsonify([s.to_dict() for s in storage.all("State").values()]), 200
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -25,27 +25,27 @@ def createstate():
     return jsonify(state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>',
-                 methods=['GET', 'DELETE', 'PUT'],
+@app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def state(state_id=""):
     """State by id get, delete, and put"""
-    for state in storage.all("State").values():
-        if state.id == state_id:
-            meth = request.method
-            if meth == 'GET':
-                return jsonify(state.to_dict())
-            if meth == 'DELETE':
-                state.delete()
-                storage.save()
-                return jsonify({}), 200
-            if meth == 'PUT':
-                data = request.get_json(silent=True)
-                if not data:
-                    abort(400, "Not a JSON")
-                for k, v in data.items():
-                    if k not in ['id', 'created_at', 'updated_at']:
-                        setattr(state, k, v)
-                state.save()
-                return jsonify(state.to_dict()), 200
-    abort(404)
+    state = storage.get("State", state_id)
+    if not state:
+        abort(404)
+    meth = request.method
+    output = {}
+    if meth == 'GET':
+        output = state.to_dict()
+    if meth == 'DELETE':
+        state.delete()
+        storage.save()
+    if meth == 'PUT':
+        data = request.get_json(silent=True)
+        if not data:
+            return jsonify({"error": "Not a JSON"}), 400
+        for k, v in data.items():
+            if k not in ['id', 'created_at', 'updated_at']:
+                setattr(state, k, v)
+        state.save()
+        output = state.to_dict()
+    return jsonify(output), 200
